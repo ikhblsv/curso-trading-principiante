@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3 Razones por las que el 90 % de los Traders Pierden su Cuenta — Lección 02 para Principiantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0D1117;
+    --surface:#141A22;
+    --surface-2:#1B232D;
+    --border:#26313E;
+    --text:#EDF2F6;
+    --text-muted:#8B96A6;
+    --text-faint:#5C6675;
+    --accent:#4C9FE8;
+    --accent-dim:rgba(76,159,232,0.14);
+    --green:#2FBE72;
+    --green-dim:rgba(47,190,114,0.14);
+    --red:#F0555B;
+    --red-dim:rgba(240,85,91,0.14);
+    --amber:#E0A030;
+    --amber-dim:rgba(224,160,48,0.14);
+    --display: 'Space Grotesk', sans-serif;
+    --body: 'Inter', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--text); font-family:var(--body); line-height:1.6; -webkit-font-smoothing:antialiased; }
+
+  body::before{
+    content:""; position:fixed; inset:0;
+    background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px; opacity:0.06; pointer-events:none; z-index:0;
+  }
+
+  /* ---------- ambient theme glow layers ---------- */
+  .glow{ position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0; transition:opacity 1.1s ease; }
+  #glow-blue{ background:radial-gradient(circle at 75% 20%, rgba(76,159,232,0.10), transparent 55%); }
+  #glow-green{ background:radial-gradient(circle at 75% 20%, rgba(47,190,114,0.10), transparent 55%); }
+  #glow-red{ background:radial-gradient(circle at 75% 20%, rgba(240,85,91,0.10), transparent 55%); }
+  .glow.active{ opacity:1; }
+
+  /* ---------- ambient drifting candles ---------- */
+  .ambient{ position:fixed; inset:0; overflow:hidden; z-index:0; pointer-events:none; }
+  .ambient span{ position:absolute; bottom:-200px; width:28px; border-radius:3px; opacity:0.05; animation:drift linear infinite; }
+  @keyframes drift{ 0%{ transform:translateY(0); } 100%{ transform:translateY(-140vh); } }
+
+  ::selection{ background:var(--accent-dim); color:var(--accent); }
+  a{ color:var(--accent); }
+
+  .eyebrow{ font-family:var(--mono); font-size:12px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .eyebrow .num{ color:var(--text-faint); }
+  .eyebrow .time{ color:var(--text-faint); margin-left:auto; }
+
+  h1,h2,h3{ font-family:var(--display); font-weight:600; letter-spacing:-0.01em; }
+
+  /* ---------- progress rail ---------- */
+  .rail{ position:fixed; left:28px; top:50%; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:12px; align-items:flex-start; }
+  .rail-line{ position:absolute; left:5px; top:6px; bottom:6px; width:1px; background:var(--border); z-index:-1; }
+  .rail-fill{ position:absolute; left:5px; top:6px; width:1px; background:var(--accent); height:0%; transition:height .4s ease; z-index:-1; }
+  .rail-dot{ display:flex; align-items:center; gap:10px; background:none; border:none; cursor:pointer; padding:0; color:var(--text-faint); font-family:var(--mono); font-size:11px; opacity:0.55; transition:opacity .3s ease, color .3s ease; }
+  .rail-dot .dot{ width:11px; height:11px; border-radius:50%; border:1.5px solid var(--text-faint); background:var(--bg); flex-shrink:0; transition:all .3s ease; }
+  .rail-dot .label{ max-width:0; overflow:hidden; white-space:nowrap; transition:max-width .3s ease; }
+  .rail-dot:hover .label, .rail-dot.active .label{ max-width:160px; }
+  .rail-dot.active{ opacity:1; color:var(--text); }
+  .rail-dot.active .dot{ border-color:var(--accent); background:var(--accent); box-shadow:0 0 0 4px var(--accent-dim); }
+  @media (max-width:900px){ .rail{ display:none; } }
+
+  main{ position:relative; z-index:1; }
+  section{ min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:110px clamp(24px,8vw,140px); border-bottom:1px solid var(--border); position:relative; }
+  .section-inner{ max-width:1140px; margin:0 auto; width:100%; position:relative; }
+  .grid-2{ display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; align-items:center; }
+  @media (max-width:900px){ .grid-2{ grid-template-columns:1fr; gap:40px; } }
+
+  .body-copy{ font-size:17px; color:var(--text-muted); max-width:64ch; }
+  .body-copy + .body-copy{ margin-top:16px; }
+  .body-copy strong{ color:var(--text); font-weight:600; }
+
+  .block-title{ font-size:clamp(26px,3.2vw,38px); margin-bottom:22px; color:var(--text); }
+
+  /* callouts */
+  .callout{ border-left:3px solid var(--accent); background:var(--surface); padding:14px 18px; border-radius:0 10px 10px 0; font-size:14.5px; color:var(--text-muted); margin-top:18px; max-width:64ch; }
+  .callout .callout-label{ font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent); display:block; margin-bottom:6px; }
+  .callout.warn{ border-left-color:var(--amber); }
+  .callout.warn .callout-label{ color:var(--amber); }
+  .callout.tip{ border-left-color:var(--green); }
+  .callout.tip .callout-label{ color:var(--green); }
+
+  .diagram-card, .chart-wrap{ background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:26px; position:relative; overflow:visible; }
+  .diagram-card svg{ width:100%; height:auto; display:block; }
+  .chart-scroll{ overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; border-radius:8px; }
+  .chart-scroll svg{ display:block; height:auto; width:900px; }
+  @media (min-width:820px){ .chart-scroll svg{ width:100%; } }
+  .chart-scroll::-webkit-scrollbar{ height:6px; }
+  .chart-scroll::-webkit-scrollbar-thumb{ background:var(--border); border-radius:3px; }
+  .scroll-nudge{ display:none; font-family:var(--mono); font-size:10px; color:var(--text-faint); margin-top:8px; letter-spacing:.06em; text-transform:uppercase; }
+  @media (max-width:819px){ .scroll-nudge{ display:block; } }
+
+  /* reveal on scroll — gated behind confirmed JS support, so content is visible by default without it */
+  html.js-ready .reveal{ opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+  html.js-ready section.in-view .reveal{ opacity:1; transform:translateY(0); }
+  html.js-ready section.in-view .reveal.d1{ transition-delay:.08s; }
+  html.js-ready section.in-view .reveal.d2{ transition-delay:.18s; }
+
+  html.js-ready .draw{ stroke-dasharray:1; stroke-dashoffset:1; transition:stroke-dashoffset 1.1s cubic-bezier(.4,0,.2,1); }
+  html.js-ready section.in-view .draw{ stroke-dashoffset:0; }
+  html.js-ready .fade-in{ opacity:0; transition:opacity .6s ease; }
+  html.js-ready section.in-view .fade-in{ opacity:1; }
+  html.js-ready .fade-in.t1{ transition-delay:.5s; } html.js-ready .fade-in.t2{ transition-delay:.7s; } html.js-ready .fade-in.t3{ transition-delay:.9s; }
+  html.js-ready .fade-in.t4{ transition-delay:1.1s; } html.js-ready .fade-in.t5{ transition-delay:1.3s; } html.js-ready .fade-in.t6{ transition-delay:1.5s; }
+  html.js-ready .grow{ transform-origin:bottom; transform:scaleY(0); transition:transform .8s cubic-bezier(.4,0,.2,1); }
+  html.js-ready section.in-view .grow{ transform:scaleY(1); }
+
+  .chip-bg-blue{ fill:var(--accent-dim); stroke:var(--accent); stroke-width:1; }
+  .chip-text-blue{ fill:var(--accent); font-family:var(--mono); font-size:11px; }
+  .grid-line{ stroke:var(--border); stroke-width:1; stroke-dasharray:3 4; }
+  .axis-label{ font-family:var(--mono); font-size:9px; fill:var(--text-faint); }
+  .ticker-label{ font-family:var(--mono); font-size:11px; fill:var(--text-muted); letter-spacing:.05em; }
+  .anno-label{ font-family:var(--mono); font-size:10px; fill:var(--accent); }
+
+  /* pop-in floating badges — same progressive-enhancement gating */
+  .badge{ position:absolute; background:var(--surface-2); border:1px solid var(--border); border-radius:20px; padding:7px 14px; font-family:var(--mono); font-size:11.5px; color:var(--text); pointer-events:none; z-index:6; white-space:nowrap; box-shadow:0 8px 24px rgba(0,0,0,.35); }
+  html.js-ready .badge{ opacity:0; transform:scale(.6) rotate(-6deg); transition:opacity .55s cubic-bezier(.34,1.56,.64,1), transform .55s cubic-bezier(.34,1.56,.64,1); }
+  html.js-ready section.in-view .badge{ opacity:1; transform:scale(1) rotate(-2deg); }
+  .badge.dot-green::before{ content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--green); margin-right:7px; }
+  .badge.dot-red::before{ content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--red); margin-right:7px; }
+  .badge.dot-blue::before{ content:''; display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-right:7px; }
+  @media (max-width:600px){
+    .badge{ font-size:10px; padding:6px 10px; white-space:normal; max-width:58%; line-height:1.35; box-shadow:0 6px 16px rgba(0,0,0,.35); }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{ min-height:100vh; display:flex; align-items:center; justify-content:center; padding:60px clamp(24px,8vw,140px); text-align:center; border-bottom:1px solid var(--border); position:relative; }
+  .hero-eyebrow{ font-family:var(--mono); font-size:13px; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-faint); margin-bottom:28px; }
+  .hero h1{ font-size:clamp(38px,6.4vw,74px); line-height:1.05; max-width:16ch; margin:0 auto 28px; }
+  .hero h1 .hl{ color:var(--accent); }
+  .hero p{ color:var(--text-muted); font-size:18px; max-width:52ch; margin:0 auto 36px; }
+  .hero-candle{ width:120px; height:180px; margin:0 auto 40px; }
+  .objectives{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; max-width:620px; margin:0 auto 44px; }
+  .objectives span{ font-family:var(--mono); font-size:11.5px; color:var(--text-muted); background:var(--surface); border:1px solid var(--border); padding:7px 14px; border-radius:20px; }
+  .scroll-hint{ font-family:var(--mono); font-size:11px; color:var(--text-faint); display:flex; flex-direction:column; align-items:center; gap:10px; letter-spacing:0.1em; text-transform:uppercase; }
+  .scroll-hint .line{ width:1px; height:36px; background:linear-gradient(var(--text-faint), transparent); animation:pulse 2s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{ opacity:.3; } 50%{ opacity:1; } }
+
+  .rule-card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px 24px; display:flex; gap:16px; align-items:flex-start; }
+  .rule-card + .rule-card{ margin-top:14px; }
+  .rule-num{ font-family:var(--mono); font-size:13px; color:var(--accent); background:var(--accent-dim); border:1px solid var(--accent); width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .rule-card h4{ font-family:var(--display); font-size:16px; margin-bottom:6px; }
+  .rule-card p{ color:var(--text-muted); font-size:14.5px; }
+
+  .recap-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:8px; }
+  @media (max-width:700px){ .recap-grid{ grid-template-columns:1fr; } }
+  .recap-card{ background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px; }
+  .recap-card .tag{ font-family:var(--mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.08em; }
+  .recap-card h4{ font-family:var(--display); font-size:16px; margin:8px 0 6px; }
+  .recap-card p{ color:var(--text-muted); font-size:13.5px; }
+
+  .next-lesson{ margin-top:36px; display:inline-flex; align-items:center; gap:12px; background:var(--surface); border:1px solid var(--border); padding:14px 20px; border-radius:12px; font-family:var(--mono); font-size:12.5px; color:var(--text-muted); }
+  .next-lesson strong{ color:var(--text); font-family:var(--display); font-size:14px; }
+
+  .twin-charts{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:700px){ .twin-charts{ grid-template-columns:1fr; } }
+  .twin-charts .chart-wrap h5{ font-family:var(--mono); font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.06em; margin-bottom:10px; }
+
+  footer{ padding:60px clamp(24px,8vw,140px) 80px; text-align:center; color:var(--text-faint); font-family:var(--mono); font-size:12px; }
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js-ready');</script>
+
+<div class="glow" id="glow-blue"></div>
+<div class="glow" id="glow-green"></div>
+<div class="glow" id="glow-red"></div>
+<div class="ambient" id="ambient"></div>
+
+<nav class="rail" id="rail">
+  <div class="rail-line"></div>
+  <div class="rail-fill" id="railFill"></div>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="hero-section">
+    <div>
+      <div class="hero-eyebrow">Nivel Principiante — Lección 02</div>
+      <svg class="hero-candle" id="heroCandle" viewBox="0 0 240 140" style="width:220px; height:auto;">
+        <polyline points="10,40 60,95 110,60 160,105 200,25" fill="none" stroke="var(--text-faint)" stroke-width="3" pathLength="1" class="draw-hero"/>
+        <circle cx="60" cy="95" r="5" fill="var(--red)"/>
+        <circle cx="200" cy="25" r="5" fill="var(--green)"/>
+      </svg>
+      <h1>Perdí <span class="hl">tres cuentas</span> antes de aprender esto.</h1>
+      <p>Una versión completa y fácil de leer de esta lección: los tres errores que destruyen la mayoría de las cuentas de trading, explicados desde mi propia experiencia y con la solución exacta que apliqué en cada caso.</p>
+      <div class="objectives">
+        <span>✓ Respeta tu stop loss</span>
+        <span>✓ Construye un sistema real</span>
+        <span>✓ Evita el sobretrading</span>
+        <span>✓ Opera con paciencia</span>
+      </div>
+      <div class="scroll-hint"><div class="line"></div>Desplázate</div>
+    </div>
+  </section>
+
+  <!-- 1. HOOK -->
+  <section data-index="0" data-label="Introducción" data-theme="blue">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">01 / 09</span> Introducción <span class="time">00:00–00:25</span></div>
+      <h2 class="block-title reveal d1">La estadística que casi nadie consigue superar</h2>
+      <p class="body-copy reveal d2">El 90 % de los traders pierde su cuenta. No es una exageración: esa es la estadística. Y yo fui uno de ellos. Perdí mi primera cuenta. También perdí la segunda. La tercera duró más, pero el resultado fue el mismo.</p>
+      <p class="body-copy reveal d2">Hoy voy a explicarte las tres razones reales por las que ocurre esto, no desde la teoría de un libro, sino desde mi propia experiencia, y cómo solucioné exactamente cada una. Si estás empezando, esta lección puede ahorrarte los dieciocho meses que yo tardé en comprenderlo.</p>
+      <div class="callout reveal d2">
+        <span class="callout-label">Por qué es importante</span>
+        No se trata de asustarte: el 90 % es una cifra ampliamente citada en estudios sobre trading minorista y se repite tanto en Forex como en criptomonedas o acciones. Los traders que sobreviven no son quienes encontraron un indicador secreto, sino quienes corrigieron los tres hábitos que veremos a continuación.
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. MY STORY -->
+  <section data-index="1" data-label="Mi historia" data-theme="blue">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">02 / 09</span> Mi historia <span class="time">00:25–00:55</span></div>
+      <h2 class="block-title reveal d1">Cuatro años, tres errores</h2>
+      <p class="body-copy reveal d2">Llevo cuatro años operando. Ahora mis resultados son estables, pero el primer año y medio fue brutal. Cometí todos los errores posibles, perdí cuentas, me enfadé con el mercado y llegué a pensar de verdad que el trading estaba manipulado en mi contra.</p>
+      <p class="body-copy reveal d2">Entonces comprendí que el problema no era el mercado. El problema era yo. En el momento en que analicé honestamente mis propios errores, todo cambió. Los tres errores que aparecen a continuación son exactamente los que descubrí cuando por fin decidí observarme con sinceridad.</p>
+      <div class="callout tip reveal d2">
+        <span class="callout-label">Por qué esto es importante para ti</span>
+        No necesitas pasar dieciocho meses perdiendo dinero para aprenderlo. Ese es precisamente el objetivo de esta lección: reconocer el patrón antes de tener que pagarlo con dinero real.
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MISTAKE 1 -->
+  <section data-index="2" data-label="Mover el stop" data-theme="red">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">03 / 09</span> Error n.º 1 <span class="time">00:55–01:45</span></div>
+      <h2 class="block-title reveal d1">Mover el stop loss</h2>
+      <p class="body-copy reveal d2" style="margin-bottom:28px;">Este fue mi mayor problema al principio. Abría una operación, colocaba el stop y, si el precio se movía en mi contra, pensaba: «De acuerdo, voy a darle un poco más de margen». Entonces movía el stop. Si el precio seguía cayendo, volvía a moverlo o lo eliminaba por completo, convenciéndome de que tarde o temprano tenía que revertir. Pero no tiene por qué hacerlo, y la mayoría de las veces no lo hacía. Así, en lugar de asumir una pequeña pérdida del 1 %, terminaba perdiendo un 10 %, un 20 % o incluso toda la cuenta. ¿Por qué hacemos esto? Porque mover el stop significa admitir que nos equivocamos, y nuestro cerebro detesta hacerlo. Es más fácil mantener la esperanza. Al mercado no le importa tu esperanza.</p>
+      <div class="chart-wrap reveal d2">
+        <div class="chart-scroll" id="chart-stoploss"></div>
+        <div class="scroll-nudge">← desplázate para ver el gráfico completo →</div>
+      </div>
+      <div class="callout warn reveal d2">
+        <span class="callout-label">Error habitual</span>
+        Eliminar por completo el stop loss puede parecer distinto de «moverlo solo una vez», pero es la misma decisión repetida con más confianza y menos honestidad. Si alguna vez has quitado el stop «solo en esta operación», ese es exactamente el momento en que este error empieza a dominarte.
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FIX 1 -->
+  <section data-index="3" data-label="Solución Stop" data-theme="green">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">04 / 09</span> Solución n.º 1 <span class="time">01:45–02:15</span></div>
+      <h2 class="block-title reveal d1">El stop loss es sagrado</h2>
+      <p class="body-copy reveal d2">Esta fue la regla que establecí: el stop loss es sagrado. Una vez colocado, no se toca. Si una operación se mueve en tu contra, no pasa nada; forma parte del juego. No vas a acertar el 100 % de las veces. Tu única responsabilidad es limitar el daño, y eso es exactamente lo que hace el stop siempre que lo dejes donde estaba.</p>
+      <p class="body-copy reveal d2">Empecé a tratar el stop como un seguro: pagar ahora un coste pequeño y conocido para no perderlo todo después. A partir de ese cambio, mis resultados mejoraron, no porque aprendiera a predecir mejor la dirección del precio, sino porque las operaciones perdedoras dejaron de destruir mi cuenta.</p>
+      <div class="callout tip reveal d2">
+        <span class="callout-label">Ponlo en práctica</span>
+        Antes de entrar en cualquier operación, anota el precio de tu stop loss fuera de la plataforma: en una aplicación de notas o en un cuaderno. Si después sientes la tentación de moverlo, el hecho de tenerlo escrito en otro lugar te ayudará a detectar ese impulso mucho más fácilmente.
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. MISTAKE 2 -->
+  <section data-index="4" data-label="Sin sistema" data-theme="red">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">05 / 09</span> Error n.º 2 <span class="time">02:15–03:00</span></div>
+      <h2 class="block-title reveal d1">Operar sin un sistema</h2>
+      <p class="body-copy reveal d2" style="margin-bottom:28px;">Esta fue mi segunda etapa. Ya había dejado de mover el stop, pero seguía entrando al mercado sin reglas reales. Veía algo en el gráfico y entraba. Leía una noticia y entraba. Alguien escribía «compra» en un chat y yo también compraba. No tenía sistema ni reglas; simplemente reaccionaba a todo lo que aparecía delante de mí. ¿Qué ocurrió? Algunas veces ganaba y otras perdía, pero el resultado total siempre estaba en negativo. ¿Por qué no funciona? Porque sin un sistema no sabes qué está funcionando y qué no. No puedes mejorar aquello que no puedes medir. Eso no es trading. Es apostar.</p>
+      <div class="chart-wrap reveal d2">
+        <div class="chart-scroll" id="chart-nosystem"></div>
+        <div class="scroll-nudge">← desplázate para ver el gráfico completo →</div>
+      </div>
+      <div class="callout warn reveal d2">
+        <span class="callout-label">Error habitual</span>
+        Observa que el problema no consiste únicamente en equivocarse con la dirección: una entrada aleatoria también puede ganar de vez en cuando. El verdadero coste es que no aprendes nada de esas operaciones, porque no existía una regla constante que pudiera confirmarse o invalidarse.
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. FIX 2 -->
+  <section data-index="5" data-label="Construir sistema" data-theme="green">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">06 / 09</span> Solución n.º 2 <span class="time">03:00–03:30</span></div>
+      <h2 class="block-title reveal d1">Construye un sistema</h2>
+      <p class="body-copy reveal d2" style="margin-bottom:28px;">Así lo solucioné: construí un sistema sencillo. Escribí todas las reglas en papel: cuándo entrar y cuándo no hacerlo, dónde colocar el stop, dónde fijar el objetivo, qué temporalidad utilizar y qué pares operar. Todo debía ser específico y quedar por escrito. La parte fundamental fue seguir esas reglas siempre, no solo cuando me resultaba conveniente. Si una configuración no cumplía mis condiciones, no la operaba, aunque mi intuición me dijera que el precio estaba a punto de moverse. Un sistema elimina gran parte de la emoción, aporta repetibilidad y permite comprobar qué funciona y qué no. Sin un sistema eres un apostador. Con un sistema eres un trader.</p>
+      <div class="chart-wrap reveal d2">
+        <div class="chart-scroll" id="chart-system"></div>
+        <div class="scroll-nudge">← desplázate para ver el gráfico completo →</div>
+      </div>
+      <div class="callout tip reveal d2">
+        <span class="callout-label">Ponlo en práctica</span>
+        Tu primer sistema no tiene que ser sofisticado. Elige una configuración que ya reconozcas parcialmente, como un retroceso hacia una línea de tendencia o un rebote en un nivel de soporte. Escribe las reglas exactas de entrada, stop y objetivo, y durante tus próximas veinte operaciones utiliza únicamente esa configuración.
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. MISTAKE 3 -->
+  <section data-index="6" data-label="Sobretrading" data-theme="red">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">07 / 09</span> Error n.º 3 <span class="time">03:30–04:15</span></div>
+      <h2 class="block-title reveal d1">Sobretrading</h2>
+      <p class="body-copy reveal d2" style="margin-bottom:28px;">Esta fue mi siguiente trampa después de construir el sistema. Pensé: si el sistema funciona, operar más significa ganar más dinero. Parece lógico, ¿verdad? Pues no. Empecé a forzar configuraciones que en realidad no existían. Veía algo que se parecía vagamente a una entrada y operaba. Encontraba algo parecido y también lo operaba. Pasaba todo el día frente a la pantalla buscando oportunidades. ¿El resultado? Una montaña de operaciones de baja calidad, dinero perdido en comisiones y spread, agotamiento emocional y, al terminar el mes, pérdidas netas. Las buenas configuraciones son poco frecuentes, y eso es completamente normal. La calidad supera a la cantidad.</p>
+      <div class="twin-charts reveal d2">
+        <div class="chart-wrap"><h5>Sobretrading — 10 operaciones forzadas</h5><div class="chart-scroll" id="chart-overtrading"></div></div>
+        <div class="chart-wrap"><h5>Calidad — 1 configuración clara</h5><div class="chart-scroll" id="chart-quality"></div></div>
+      </div>
+      <div class="callout warn reveal d2">
+        <span class="callout-label">Error habitual</span>
+        «Ahora tengo un sistema, así que debo utilizarlo constantemente» es una de las trampas más habituales después de corregir el segundo error. Un buen sistema te indica cuándo NO operar al menos con la misma frecuencia con la que te indica cuándo entrar.
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. FIX 3 -->
+  <section data-index="7" data-label="Operar mejor" data-theme="green">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">08 / 09</span> Solución n.º 3 <span class="time">04:15–04:50</span></div>
+      <h2 class="block-title reveal d1">Opera menos y opera mejor</h2>
+      <p class="body-copy reveal d2">Esta fue la solución: establecí un límite máximo de una o dos operaciones al día, independientemente de lo que hiciera el mercado. Si ese día no aparecía una buena configuración, no operaba. Apagaba el ordenador, salía a caminar o hacía cualquier otra cosa.</p>
+      <p class="body-copy reveal d2">Al principio fue difícil. Sentía que estaba perdiéndome oportunidades y que el mercado avanzaba sin mí. Sin embargo, cuando analicé mis estadísticas, comprobé que aumentaron mi porcentaje de aciertos, mi beneficio medio por operación y mis resultados generales. Menos operaciones, mejores resultados. Parece contradictorio, pero es cierto. La paciencia es una habilidad y quizá sea la más importante de todas en el trading.</p>
+      <div class="callout tip reveal d2">
+        <span class="callout-label">Ponlo en práctica</span>
+        Establece un límite diario concreto y anótalo, por ejemplo: «máximo 2 operaciones», antes de que comience la sesión, no durante ella. Decidir el límite en pleno momento emocional no funciona; siempre encontrarás una excusa para hacer «solo una más».
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. RECAP -->
+  <section data-index="8" data-label="Resumen" data-theme="green">
+    <div class="section-inner">
+      <div class="eyebrow reveal"><span class="num">09 / 09</span> Resumen</div>
+      <h2 class="block-title reveal d1">Tres soluciones y una misma base</h2>
+      <p class="body-copy reveal d2" style="margin-bottom:24px;">Estas son las tres razones por las que el 90 % de los traders pierde su cuenta y la solución correspondiente a cada una.</p>
+      <div class="diagram-card reveal d2">
+        <svg viewBox="0 0 680 260">
+          <defs><marker id="arrow4" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--text-faint)"/></marker></defs>
+          <text x="170" y="30" text-anchor="middle" style="fill:var(--text-faint); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em;">Error</text>
+          <text x="510" y="30" text-anchor="middle" style="fill:var(--text-faint); font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.08em;">Solución</text>
+
+          <text x="170" y="80" text-anchor="middle" style="fill:var(--red); font-family:var(--display); font-size:16px;" class="fade-in t1">Mover el stop</text>
+          <line x1="280" y1="76" x2="360" y2="76" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#arrow4)" class="fade-in t2"/>
+          <rect x="400" y="62" width="220" height="30" rx="15" fill="var(--green-dim)" stroke="var(--green)" stroke-width="1" class="fade-in t2"/>
+          <text x="510" y="80" text-anchor="middle" style="fill:var(--green); font-family:var(--display); font-size:13px;" class="fade-in t3">El stop loss es sagrado</text>
+
+          <text x="170" y="150" text-anchor="middle" style="fill:var(--red); font-family:var(--display); font-size:16px;" class="fade-in t2">Operar sin un sistema</text>
+          <line x1="280" y1="146" x2="360" y2="146" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#arrow4)" class="fade-in t3"/>
+          <rect x="400" y="132" width="220" height="30" rx="15" fill="var(--green-dim)" stroke="var(--green)" stroke-width="1" class="fade-in t3"/>
+          <text x="510" y="150" text-anchor="middle" style="fill:var(--green); font-family:var(--display); font-size:13px;" class="fade-in t4">Escribe las reglas y respétalas</text>
+
+          <text x="170" y="220" text-anchor="middle" style="fill:var(--red); font-family:var(--display); font-size:16px;" class="fade-in t3">Sobretrading</text>
+          <line x1="280" y1="216" x2="360" y2="216" stroke="var(--text-faint)" stroke-width="1.5" marker-end="url(#arrow4)" class="fade-in t4"/>
+          <rect x="400" y="202" width="220" height="30" rx="15" fill="var(--green-dim)" stroke="var(--green)" stroke-width="1" class="fade-in t4"/>
+          <text x="510" y="220" text-anchor="middle" style="fill:var(--green); font-family:var(--display); font-size:13px;" class="fade-in t5">Calidad antes que cantidad</text>
+        </svg>
+      </div>
+      <p class="body-copy reveal d2" style="margin-top:24px;">Yo mismo cometí estos tres errores y todos me costaron dinero real. Pero corregirlos lo cambió todo. Recuerda: el trading no consiste en acertar siempre, sino en evitar errores absurdos que podrían prevenirse. Protege tu capital, respeta tu sistema y ten paciencia. Todo lo demás parte de esa base.</p>
+      <div class="reveal d2">
+        <div class="next-lesson">Siguiente lección → <strong>Nivel Intermedio: Estructura del Mercado</strong></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>Lección 2 de 2 para Principiantes — 3 Razones por las que el 90 % de los Traders Pierden su Cuenta</footer>
+
+<script>
+  /* ---------- seeded random + chart generator ---------- */
+  function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+
+  function genSeries(seed,n,start,vol,drift){
+    drift = drift||0;
+    const rand=mulberry32(seed); let price=start; const out=[];
+    for(let i=0;i<n;i++){
+      const open=price; const change=(rand()-0.5)*vol + drift; let close=open+change;
+      const high=Math.max(open,close)+rand()*vol*0.35;
+      const low=Math.min(open,close)-rand()*vol*0.35;
+      out.push({open,high,low,close}); price=close;
+    }
+    return out;
+  }
+
+  function renderChart(elId, opts){
+    const el=document.getElementById(elId); if(!el) return;
+    let candles=genSeries(opts.seed,opts.n,opts.start,opts.vol,opts.drift);
+    if(opts.overrides){ Object.keys(opts.overrides).forEach(i=>{ candles[i]=Object.assign({},candles[i],opts.overrides[i]); }); }
+    const W=900,H=340,padL=16,padR=64,padT=44,padB=20;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const highs=candles.map(c=>c.high), lows=candles.map(c=>c.low);
+    let max=Math.max(...highs), min=Math.min(...lows);
+    (opts.annotations||[]).forEach(a=>{ if(a.type==='line'){ max=Math.max(max,a.y); min=Math.min(min,a.y); } });
+    const range=(max-min)||1;
+    const y=v=>padT+(1-(v-min)/range)*plotH;
+    const n=candles.length, slot=plotW/n, cw=Math.max(3,slot*0.62);
+
+    let svg=`<svg viewBox="0 0 ${W} ${H}">`;
+    for(let i=0;i<=4;i++){
+      const gy=padT+plotH*i/4;
+      svg+=`<line x1="${padL}" y1="${gy}" x2="${W-padR+44}" y2="${gy}" class="grid-line"/>`;
+      svg+=`<text x="${W-padR+8}" y="${gy+4}" class="axis-label">${(max-range*i/4).toSolucióned(2)}</text>`;
+    }
+    svg+=`<text x="${padL}" y="22" class="ticker-label">${opts.ticker||''}</text>`;
+
+    candles.forEach((c,i)=>{
+      const cx=padL+slot*i+slot/2, up=c.close>=c.open;
+      const color=up?'var(--green)':'var(--red)', bg=up?'var(--green-dim)':'var(--red-dim)';
+      const bodyTop=y(Math.max(c.open,c.close)), bodyBot=y(Math.min(c.open,c.close));
+      const bodyH=Math.max(1.5,bodyBot-bodyTop);
+      const delay=(i*0.012).toSolucióned(3);
+      svg+=`<line x1="${cx}" y1="${y(c.high)}" x2="${cx}" y2="${y(c.low)}" stroke="${color}" stroke-width="1.4" pathLength="1" class="draw" style="transition-delay:${delay}s"/>`;
+      svg+=`<rect x="${(cx-cw/2).toSolucióned(1)}" y="${bodyTop.toSolucióned(1)}" width="${cw.toSolucióned(1)}" height="${bodyH.toSolucióned(1)}" fill="${bg}" stroke="${color}" stroke-width="1.2" rx="1" class="fade-in" style="transition-delay:${(i*0.012+0.15).toSolucióned(3)}s"/>`;
+    });
+
+    (opts.annotations||[]).forEach((a,ai)=>{
+      const delay=(1.2+ai*0.22).toSolucióned(2);
+      if(a.type==='zone'){
+        const x0=padL+slot*a.from, x1=padL+slot*(a.to+1);
+        const yTop=y(a.top), yBot=y(a.bottom);
+        svg+=`<rect x="${x0.toSolucióned(1)}" y="${yTop.toSolucióned(1)}" width="${(x1-x0).toSolucióned(1)}" height="${(yBot-yTop).toSolucióned(1)}" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1" class="fade-in" style="transition-delay:${delay}s"/>`;
+        svg+=`<text x="${(x0+8).toSolucióned(1)}" y="${(yTop-8).toSolucióned(1)}" class="anno-label fade-in" style="transition-delay:${delay}s">${a.label}</text>`;
+      }
+      if(a.type==='line'){
+        const x0=padL+slot*a.from, x1=padL+slot*(a.to+1);
+        const yy=y(a.y);
+        const col = a.color==='red' ? 'var(--red)' : (a.color==='green' ? 'var(--green)' : 'var(--accent)');
+        svg+=`<line x1="${x0.toSolucióned(1)}" y1="${yy.toSolucióned(1)}" x2="${x1.toSolucióned(1)}" y2="${yy.toSolucióned(1)}" stroke="${col}" stroke-width="1.6" stroke-dasharray="5 4" class="fade-in" style="transition-delay:${delay}s"/>`;
+        if(a.label){
+          svg+=`<text x="${(x0+6).toSolucióned(1)}" y="${(yy-8).toSolucióned(1)}" class="anno-label fade-in" style="fill:${col}; transition-delay:${delay}s">${a.label}</text>`;
+        }
+      }
+      if(a.type==='marker'){
+        const cx=padL+slot*a.index+slot/2, cy=y(a.y);
+        const col = a.dir==='down' ? 'var(--red)' : 'var(--green)';
+        const pts = a.dir==='down' ? `${cx-6},${cy-8} ${cx+6},${cy-8} ${cx},${cy+4}` : `${cx-6},${cy+8} ${cx+6},${cy+8} ${cx},${cy-4}`;
+        svg+=`<polygon points="${pts}" fill="${col}" class="fade-in" style="transition-delay:${delay}s"/>`;
+      }
+      if(a.type==='x'){
+        const cx=padL+slot*a.index+slot/2, cy=y(a.y);
+        svg+=`<line x1="${cx-8}" y1="${cy-8}" x2="${cx+8}" y2="${cy+8}" stroke="var(--red)" stroke-width="3" class="fade-in" style="transition-delay:${delay}s"/>`;
+        svg+=`<line x1="${cx+8}" y1="${cy-8}" x2="${cx-8}" y2="${cy+8}" stroke="var(--red)" stroke-width="3" class="fade-in" style="transition-delay:${delay}s"/>`;
+        svg+=`<text x="${(cx+14).toSolucióned(1)}" y="${(cy+4).toSolucióned(1)}" class="anno-label fade-in" style="fill:var(--red); transition-delay:${delay}s">${a.label||''}</text>`;
+      }
+    });
+
+    svg+='</svg>';
+    el.innerHTML=svg;
+  }
+
+  window.addEventListener('load', () => {
+    // Error n.º 1 — moving the stop-loss: steady decline, stop moved lower 3 times, account blown
+    renderChart('chart-stoploss', { seed:44, n:26, start:100, vol:1.1, drift:-0.55, ticker:'XAUUSD · 1H — la posición se mueve en tu contra',
+      annotations:[
+        {type:'line', from:2, to:9, y:97.5, color:'blue', label:'Stop n.º 1'},
+        {type:'line', from:9, to:16, y:92.0, color:'blue', label:'Stop n.º 2 (movido)'},
+        {type:'line', from:16, to:23, y:86.5, color:'red', label:'Stop n.º 3 (movido)'},
+        {type:'x', index:24, y:83.5, label:'cuenta perdida'}
+      ]});
+
+    // Error n.º 2 — no system: random, inconsistent entries against an unclear trend
+    renderChart('chart-nosystem', { seed:51, n:28, start:100, vol:1.3, ticker:'EURUSD · 1H — reaccionando a todo lo que aparece',
+      annotations:[
+        {type:'marker', index:3, y:101, dir:'up'},
+        {type:'marker', index:7, y:97, dir:'down'},
+        {type:'marker', index:11, y:103, dir:'up'},
+        {type:'marker', index:15, y:99, dir:'down'},
+        {type:'marker', index:19, y:102, dir:'up'},
+        {type:'marker', index:23, y:96, dir:'down'}
+      ]});
+
+    // Solución n.º 2 — a system: same kind of chart, but entries only at one repeatable rule (pullback in an uptrend)
+    renderChart('chart-system', { seed:63, n:28, start:90, vol:0.9, drift:0.35, ticker:'EURUSD · 1H — la misma regla, siempre',
+      annotations:[
+        {type:'marker', index:5, y:92, dir:'up'},
+        {type:'marker', index:12, y:97, dir:'up'},
+        {type:'marker', index:19, y:102, dir:'up'}
+      ]});
+
+    // Error n.º 3 — overtrading: many forced entries clustered together
+    renderChart('chart-overtrading', { seed:71, n:26, start:100, vol:1.0, ticker:'GBPUSD · 1H',
+      annotations:[
+        {type:'marker', index:4, y:101, dir:'up'}, {type:'marker', index:6, y:99, dir:'down'},
+        {type:'marker', index:8, y:102, dir:'up'}, {type:'marker', index:10, y:98, dir:'down'},
+        {type:'marker', index:12, y:101, dir:'up'}, {type:'marker', index:14, y:97, dir:'down'},
+        {type:'marker', index:16, y:100, dir:'up'}, {type:'marker', index:18, y:96, dir:'down'},
+        {type:'marker', index:20, y:99, dir:'up'}, {type:'marker', index:22, y:95, dir:'down'}
+      ]});
+
+    // Quality — one clean, well-timed setup
+    renderChart('chart-quality', { seed:72, n:26, start:90, vol:0.85, drift:0.4, ticker:'GBPUSD · 1H',
+      annotations:[ {type:'marker', index:13, y:96, dir:'up'} ]});
+  });
+
+  /* ---------- ambient drifting candles ---------- */
+  (function(){
+    const wrap=document.getElementById('ambient');
+    const rand=mulberry32(42);
+    for(let i=0;i<14;i++){
+      const s=document.createElement('span');
+      const up = rand() > 0.5;
+      s.className = 'c ' + (up?'up':'down');
+      s.style.background = up ? 'var(--green)' : 'var(--red)';
+      s.style.left = (rand()*100)+'vw';
+      s.style.height = (40+rand()*120)+'px';
+      s.style.animationDuration = (28+rand()*30)+'s';
+      s.style.animationDelay = (-rand()*40)+'s';
+      wrap.appendChild(s);
+    }
+  })();
+
+  /* ---------- progress rail + reveal + theme glow ---------- */
+  const sections = Array.from(document.querySelectorAll('main section[data-index]'));
+  const rail = document.getElementById('rail');
+  const railFill = document.getElementById('railFill');
+  const glows = { blue:document.getElementById('glow-blue'), green:document.getElementById('glow-green'), red:document.getElementById('glow-red') };
+
+  sections.forEach(sec => {
+    const btn = document.createElement('button');
+    btn.className = 'rail-dot'; btn.dataset.index = sec.dataset.index;
+    btn.innerHTML = '<span class="dot"></span><span class="label">' + sec.dataset.label + '</span>';
+    btn.addEventListener('click', () => sec.scrollIntoView({behavior:'smooth'}));
+    rail.appendChild(btn);
+  });
+  const dots = Array.from(document.querySelectorAll('.rail-dot'));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        const idx = entry.target.dataset.index;
+        dots.forEach(d => d.classList.toggle('active', d.dataset.index === idx));
+        railFill.style.height = ((Number(idx)+1) / sections.length * 100) + '%';
+        const theme = entry.target.dataset.theme || 'blue';
+        Object.keys(glows).forEach(k => glows[k].classList.toggle('active', k===theme));
+      }
+    });
+  }, { threshold: 0.45 });
+  sections.forEach(sec => io.observe(sec));
+
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.draw-hero, .draw-hero-rect').forEach(el => {
+      el.style.strokeDasharray = '1'; el.style.strokeDashoffset = '1';
+      requestAnimationFrame(() => { el.style.transition = 'stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)'; el.style.strokeDashoffset = '0'; });
+    });
+  });
+</script>
+
+</body>
+</html>
