@@ -402,7 +402,7 @@
     for(let i=0;i<=4;i++){
       const gy=padT+plotH*i/4;
       svg+=`<line x1="${padL}" y1="${gy}" x2="${W-padR+44}" y2="${gy}" class="grid-line"/>`;
-      svg+=`<text x="${W-padR+8}" y="${gy+4}" class="axis-label">${(max-range*i/4).toSolucióned(2)}</text>`;
+      svg+=`<text x="${W-padR+8}" y="${gy+4}" class="axis-label">${(max-range*i/4).toFixed(2)}</text>`;
     }
     svg+=`<text x="${padL}" y="22" class="ticker-label">${opts.ticker||''}</text>`;
 
@@ -411,26 +411,26 @@
       const color=up?'var(--green)':'var(--red)', bg=up?'var(--green-dim)':'var(--red-dim)';
       const bodyTop=y(Math.max(c.open,c.close)), bodyBot=y(Math.min(c.open,c.close));
       const bodyH=Math.max(1.5,bodyBot-bodyTop);
-      const delay=(i*0.012).toSolucióned(3);
+      const delay=(i*0.012).toFixed(3);
       svg+=`<line x1="${cx}" y1="${y(c.high)}" x2="${cx}" y2="${y(c.low)}" stroke="${color}" stroke-width="1.4" pathLength="1" class="draw" style="transition-delay:${delay}s"/>`;
-      svg+=`<rect x="${(cx-cw/2).toSolucióned(1)}" y="${bodyTop.toSolucióned(1)}" width="${cw.toSolucióned(1)}" height="${bodyH.toSolucióned(1)}" fill="${bg}" stroke="${color}" stroke-width="1.2" rx="1" class="fade-in" style="transition-delay:${(i*0.012+0.15).toSolucióned(3)}s"/>`;
+      svg+=`<rect x="${(cx-cw/2).toFixed(1)}" y="${bodyTop.toFixed(1)}" width="${cw.toFixed(1)}" height="${bodyH.toFixed(1)}" fill="${bg}" stroke="${color}" stroke-width="1.2" rx="1" class="fade-in" style="transition-delay:${(i*0.012+0.15).toFixed(3)}s"/>`;
     });
 
     (opts.annotations||[]).forEach((a,ai)=>{
-      const delay=(1.2+ai*0.22).toSolucióned(2);
+      const delay=(1.2+ai*0.22).toFixed(2);
       if(a.type==='zone'){
         const x0=padL+slot*a.from, x1=padL+slot*(a.to+1);
         const yTop=y(a.top), yBot=y(a.bottom);
-        svg+=`<rect x="${x0.toSolucióned(1)}" y="${yTop.toSolucióned(1)}" width="${(x1-x0).toSolucióned(1)}" height="${(yBot-yTop).toSolucióned(1)}" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1" class="fade-in" style="transition-delay:${delay}s"/>`;
-        svg+=`<text x="${(x0+8).toSolucióned(1)}" y="${(yTop-8).toSolucióned(1)}" class="anno-label fade-in" style="transition-delay:${delay}s">${a.label}</text>`;
+        svg+=`<rect x="${x0.toFixed(1)}" y="${yTop.toFixed(1)}" width="${(x1-x0).toFixed(1)}" height="${(yBot-yTop).toFixed(1)}" fill="var(--accent-dim)" stroke="var(--accent)" stroke-width="1" class="fade-in" style="transition-delay:${delay}s"/>`;
+        svg+=`<text x="${(x0+8).toFixed(1)}" y="${(yTop-8).toFixed(1)}" class="anno-label fade-in" style="transition-delay:${delay}s">${a.label}</text>`;
       }
       if(a.type==='line'){
         const x0=padL+slot*a.from, x1=padL+slot*(a.to+1);
         const yy=y(a.y);
         const col = a.color==='red' ? 'var(--red)' : (a.color==='green' ? 'var(--green)' : 'var(--accent)');
-        svg+=`<line x1="${x0.toSolucióned(1)}" y1="${yy.toSolucióned(1)}" x2="${x1.toSolucióned(1)}" y2="${yy.toSolucióned(1)}" stroke="${col}" stroke-width="1.6" stroke-dasharray="5 4" class="fade-in" style="transition-delay:${delay}s"/>`;
+        svg+=`<line x1="${x0.toFixed(1)}" y1="${yy.toFixed(1)}" x2="${x1.toFixed(1)}" y2="${yy.toFixed(1)}" stroke="${col}" stroke-width="1.6" stroke-dasharray="5 4" class="fade-in" style="transition-delay:${delay}s"/>`;
         if(a.label){
-          svg+=`<text x="${(x0+6).toSolucióned(1)}" y="${(yy-8).toSolucióned(1)}" class="anno-label fade-in" style="fill:${col}; transition-delay:${delay}s">${a.label}</text>`;
+          svg+=`<text x="${(x0+6).toFixed(1)}" y="${(yy-8).toFixed(1)}" class="anno-label fade-in" style="fill:${col}; transition-delay:${delay}s">${a.label}</text>`;
         }
       }
       if(a.type==='marker'){
@@ -443,7 +443,7 @@
         const cx=padL+slot*a.index+slot/2, cy=y(a.y);
         svg+=`<line x1="${cx-8}" y1="${cy-8}" x2="${cx+8}" y2="${cy+8}" stroke="var(--red)" stroke-width="3" class="fade-in" style="transition-delay:${delay}s"/>`;
         svg+=`<line x1="${cx+8}" y1="${cy-8}" x2="${cx-8}" y2="${cy+8}" stroke="var(--red)" stroke-width="3" class="fade-in" style="transition-delay:${delay}s"/>`;
-        svg+=`<text x="${(cx+14).toSolucióned(1)}" y="${(cy+4).toSolucióned(1)}" class="anno-label fade-in" style="fill:var(--red); transition-delay:${delay}s">${a.label||''}</text>`;
+        svg+=`<text x="${(cx+14).toFixed(1)}" y="${(cy+4).toFixed(1)}" class="anno-label fade-in" style="fill:var(--red); transition-delay:${delay}s">${a.label||''}</text>`;
       }
     });
 
